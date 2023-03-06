@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_city/pages/reports.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,7 +33,13 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReportsPage()),
+                      )
+                    },
                 child: const Text('View reports'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50), // NEW
