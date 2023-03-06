@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_city/pages/login.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(const LoginPage());
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: LoginPage(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
