@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_city/pages/view_report.dart';
 
 class ReportsPage extends StatefulWidget {
   const ReportsPage({super.key});
@@ -21,7 +22,7 @@ class _ReportsPageState extends State<ReportsPage> {
         padding: const EdgeInsets.all(12.0),
         children: [
           for (var item in list)
-            ReportCard(
+            ReportCardTile(
               title: item,
               description: item,
             )
@@ -30,21 +31,27 @@ class _ReportsPageState extends State<ReportsPage> {
     );
   }
 
-  Iterable<ReportCard> newMethod() {
+  Iterable<ReportCardTile> newMethod() {
     return text.map(
-        (e) => const ReportCard(title: 'data', description: 'description'));
+        (e) => const ReportCardTile(title: 'data', description: 'description'));
   }
 }
 
-class ReportCard extends StatelessWidget {
+class ReportCardTile extends StatelessWidget {
   final String title;
   final String description;
-  const ReportCard({super.key, required this.title, required this.description});
+  const ReportCardTile(
+      {super.key, required this.title, required this.description});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {},
+      onTap: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ViewReport()),
+        )
+      },
       child: Card(
         elevation: 2.0,
         child: ListTile(

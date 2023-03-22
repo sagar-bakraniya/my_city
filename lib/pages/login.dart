@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:my_city/pages/home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -38,13 +35,6 @@ class _LoginPageState extends State<LoginPage> {
     // } else {
     //   print(response1.reasonPhrase);
     // }
-
-    final response = await http.get('http://localhost:5005/WeatherForecast');
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      return null;
-    }
   }
 
   @override

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:my_city/pages/add_report.dart';
 import 'package:my_city/pages/reports.dart';
+import 'package:my_city/widgets/report_card.dart';
+
+import '../widgets/drawer_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,29 +14,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0.0, size.height - 100);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 100);
-    path.lineTo(size.width, 0.0);
-    path.close();
-    return path;
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  var drawerItemsList = ListView(
+    children: const [
+      MCDrawerHeader(),
+      ListTile(
+        title: Text('Home'),
+        leading: Icon(Icons.home),
+      ),
+      ListTile(
+        title: Text('Profile'),
+        leading: Icon(Icons.person),
+      ),
+      ListTile(
+        title: Text('Add Report'),
+        leading: Icon(Icons.web),
+      ),
+      ListTile(
+        title: Text('About us'),
+        leading: Icon(Icons.info),
+      ),
+      ListTile(
+        title: Text('Privacy policy'),
+        leading: Icon(Icons.lock),
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(title: Text('Dashboard')),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        shadowColor: null,
+        // automaticallyImplyLeading: false,
+        // shadowColor: null,
         title: const Text('Dashboard'),
+        // leading: Icon(Icons.settings)
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),
-        child: Column(
+        height: null,
+        child: ListView(
+          scrollDirection: Axis.vertical,
           children: [
+            // RecentReports()
             ElevatedButton(
                 onPressed: () => {
                       Navigator.push(
@@ -48,7 +75,13 @@ class _HomePageState extends State<HomePage> {
               height: 16.0,
             ),
             ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AddReport()),
+                      )
+                    },
                 child: const Text('Add  reports'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50), // NEW
@@ -71,9 +104,26 @@ class _HomePageState extends State<HomePage> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50), // NEW
                 )),
+            // ListView(
+            //   children: [
+            //     // ReportCard(
+            //     //     title: 'Category name',
+            //     //     description: 'description',
+            //     //     image: 'https://picsum.photos/250?image=9'),
+            //     // ReportCard(
+            //     //     title: 'Category name',
+            //     //     description: 'description',
+            //     //     image: 'https://picsum.photos/250?image=9'),
+            //     // ReportCard(
+            //     //     title: 'Category name',
+            //     //     description: 'description',
+            //     //     image: 'https://picsum.photos/250?image=9')
+            //   ],
+            // )
           ],
         ),
       ),
+      drawer: Drawer(child: drawerItemsList),
     );
   }
 }
