@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:geocoder/geocoder.dart';
+
+import '../widgets/image_placeholder.dart';
+// import 'package:geocoder/geocoder.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
@@ -13,6 +15,7 @@ class AddReport extends StatefulWidget {
 
 class _AddReportState extends State<AddReport> {
   final location = Location();
+  final imagePlaceholder = const ImagePlaceholder();
 
   String address = '';
   @override
@@ -24,15 +27,14 @@ class _AddReportState extends State<AddReport> {
   Future<void> getLocation() async {
     var data = await location.getLocation();
     // From coordinates
-    final coordinates = Coordinates(data.latitude, data.longitude);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
+    // final coordinates = Coordinates(data.latitude, data.longitude);
+    var addresses = "";
+    // await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    // var first = addresses.first;
 
     setState(() {
-      address = "${first.featureName} : ${first.addressLine}";
+      address = "address";
     });
-    print("${first.featureName} : ${first.addressLine}");
   }
 
   var categories = [
@@ -53,9 +55,7 @@ class _AddReportState extends State<AddReport> {
       body: ListView(
         children: [
           Column(children: [
-            Image.network(
-                'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif',
-                width: double.infinity),
+            imagePlaceholder,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: DropdownButtonFormField(
