@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:my_city/widgets/camera_screen.dart';
 
 import '../widgets/image_placeholder.dart';
+import 'package:camera/camera.dart';
+
+import 'dart:async';
 // import 'package:geocoder/geocoder.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
@@ -16,12 +22,32 @@ class AddReport extends StatefulWidget {
 class _AddReportState extends State<AddReport> {
   final location = Location();
   final imagePlaceholder = const ImagePlaceholder();
-
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
+  late List<CameraDescription> cameras;
   String address = '';
+
+  late String image = '';
   @override
   initState() {
+    intiCamera();
     getLocation();
     super.initState();
+  }
+
+  Future<void> intiCamera() async {
+    cameras = await availableCameras();
+
+    // Get a specific camera from the list of available cameras.
+    final firstCamera = cameras.first;
+    _controller = CameraController(
+      // Get a specific camera from the list of available cameras.
+      firstCamera, // Define the resolution to use.
+      ResolutionPreset.medium,
+    );
+
+    // Next, initialize the controller. This returns a Future.
+    _initializeControllerFuture = _controller.initialize();
   }
 
   Future<void> getLocation() async {
@@ -55,7 +81,24 @@ class _AddReportState extends State<AddReport> {
       body: ListView(
         children: [
           Column(children: [
-            imagePlaceholder,
+            GestureDetector(
+                child: image.isEmpty
+                    ? imagePlaceholder
+                    : Image.file(
+                        File(image),
+                        fit: BoxFit.cover,
+                      ),
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            TakePictureScreen(camera: cameras.first)),
+                  );
+                  setState(() {
+                    image = result as String;
+                  });
+                }),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: DropdownButtonFormField(

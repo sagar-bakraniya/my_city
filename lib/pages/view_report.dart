@@ -37,14 +37,32 @@ class _ViewReportState extends State<ViewReport> {
   }
 
   var categories = [
-    "Food",
-    "Transport",
-    "Personal",
-    "Shopping",
-    "Medical",
-    "Rent",
-    "Movie",
-    "Salary"
+    "Trash & Issue",
+    "Health hazards",
+    "Street and Park damage",
+    "Vehicle/Parking",
+    "Lights",
+    "Trees",
+    "General",
+  ];
+
+  var subCategories = [
+    'trash',
+    'litter',
+    'Mosquitoes',
+    'Dead animal pickup',
+    'Pothole',
+    'Damaged sign',
+    'Broken equipments',
+    'Broken sidewalk',
+    'Illegal parking',
+    'Vehicle breakdown',
+    'Street light',
+    'Traffic signal',
+    'Plant new tree request',
+    'Dead tree removal',
+    'Tree pruning',
+    'Other',
   ];
 
   @override
@@ -70,19 +88,17 @@ class _ViewReportState extends State<ViewReport> {
                     ],
                   ));
             }).toList(),
-            onChanged: (newValue) {
-              // do other stuff with _category
-            },
-            value: null,
+            onChanged: null,
+            value: categories.first,
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonFormField(
             hint: const Text('Choose sub category'),
-            decoration: InputDecoration(labelText: 'select sub category'),
-            items: categories.map((String category) {
-              return new DropdownMenuItem(
+            decoration: const InputDecoration(labelText: 'select sub category'),
+            items: subCategories.map((String category) {
+              return DropdownMenuItem(
                   value: category,
                   child: Row(
                     children: <Widget>[
@@ -90,10 +106,8 @@ class _ViewReportState extends State<ViewReport> {
                     ],
                   ));
             }).toList(),
-            onChanged: (newValue) {
-              // do other stuff with _category
-            },
-            value: null,
+            onChanged: null,
+            value: subCategories.first,
           ),
         ),
         Padding(
@@ -101,7 +115,7 @@ class _ViewReportState extends State<ViewReport> {
           child: TextFormField(
             maxLines: 3,
             decoration: const InputDecoration(
-              hintText: 'Ex. alex@gmail.com',
+              hintText: 'Describe problem',
               label: Text('Description'),
               border: OutlineInputBorder(),
             ),
