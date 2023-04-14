@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_city/pages/home.dart';
 import 'package:my_city/pages/login.dart';
-import 'package:my_city/pages/reports.dart';
-import 'package:my_city/pages/view_report.dart';
 
 void main() {
   runApp(const MaterialApp(
