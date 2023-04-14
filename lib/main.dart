@@ -1,10 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:my_city/pages/login.dart';
+import 'dart:ffi';
 
-void main() {
-  runApp(const MaterialApp(
+import 'package:flutter/material.dart';
+import 'package:my_city/pages/home.dart';
+import 'package:my_city/pages/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var auth = prefs.getBool("is_logged_in");
+  Widget screenView = auth != null ? const HomePage() : const LoginPage();
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: LoginPage(),
+    home: screenView,
   ));
 }
 

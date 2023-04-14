@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:my_city/pages/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -43,73 +44,82 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text('My city my responsibility'),
-            Form(
-                key: _formStateKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'Ex. alex@gmail.com',
-                          label: Text('Email'),
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter email address';
-                          }
-                          if (!isEmail(value)) {
-                            return 'Please enter a valid email address';
-                          }
-                          return null;
-                        },
-                        controller: emailController,
+      body: ListView(
+        children: [
+          Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Text('My city my responsibility'),
+                Form(
+                    key: _formStateKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              hintText: 'Ex. alex@gmail.com',
+                              label: Text('Email'),
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter email address';
+                              }
+                              if (!isEmail(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                            controller: emailController,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              hintText: '',
+                              label: Text('Password'),
+                              border: OutlineInputBorder(),
+                            ),
+                            obscureText: true,
+                            controller: passwordController,
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a password.';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (_formStateKey.currentState!.validate()) {
+                                SharedPreferences preferences =
+                                    await SharedPreferences.getInstance();
+                                preferences.setBool('is_logged_in', true);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()),
+                                );
+                              }
+                            },
+                            child: const Text('Login'),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size.fromHeight(50), // NEW
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: '',
-                          label: Text('Password'),
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
-                        controller: passwordController,
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a password.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
-                        },
-                        child: const Text('Login'),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(50), // NEW
-                        ),
-                      ),
-                    ],
-                  ),
-                ))
-          ],
-        ),
+                    ))
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
